@@ -9,7 +9,9 @@ Here are some guidelines:
 1. The intent may be one, two, or even three. You need to maximize the user's intent.
 
 2. Define the parameters for each intent. The parameter for weather is city, the parameter for time is location, and the model parameter is empty.
- You need to find the corresponding parameters in {latest_message} yourself. 3.Output must be **valid JSON only**, strictly following this format:
+ You need to find the corresponding parameters in {latest_message} yourself. 
+
+3.Output must be **valid JSON only**, strictly following this format:
 for example：
 {{
 "intent":["weather","time"],

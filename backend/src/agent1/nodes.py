@@ -21,10 +21,12 @@ openai_api_base="https://api.siliconflow.cn/v1",
 def intent_analysis_node(state: IntentState) -> Dict:
     latest_message = state["messages"][-1]
     current_intent = state.get("intent",[])
+    #context = state["messages"][-5:]
     # 调用 LLM
     chain = intent_prompt | llm
     result = chain.invoke({
-        "latest_message": latest_message,
+        "latest_message": latest_message
+       # "context":context,
     }).content
     # JSON 解析
     try:
@@ -124,3 +126,11 @@ def weather_tool_node(state):
 
     except Exception as e:
         return {"messages": f"查询天气失败，错误: {str(e)}"}
+def model_tool_node(state):
+    message = "调用模型"
+    print(message)
+    return {"message": message}
+def merge_node(state):
+    num = len(state["intent"])
+    message = state["messages"][-num:]
+    return {"messages": message}
