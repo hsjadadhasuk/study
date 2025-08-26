@@ -13,6 +13,6 @@ graph.add_node("tools",tool_node)
 graph.add_edge(START, "intent_analysis_node")
 graph.add_conditional_edges("intent_analysis_node", tools_condition)
 agent = graph.compile()
-events = agent.stream( {"messages": [("human", "你可以告诉我现在的上海时间吗")]})
+events = agent.stream( {"messages": [("human", "你可以告诉我现在的上海时间和上海天气吗")]})
 for event in events:
     print(event)
