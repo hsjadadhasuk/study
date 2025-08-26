@@ -3,7 +3,7 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from state import IntentState
 from langgraph.graph import add_messages
 from langchain_openai import ChatOpenAI
-from prompts import intent_prompt
+from prompts import intent_prompt,refinement_prompt
 import json
 import os
 from datetime import datetime
@@ -17,15 +17,23 @@ model="Qwen/Qwen2.5-72B-Instruct",
 openai_api_key=os.getenv("OPENAI_API_KEY"),
 openai_api_base="https://api.siliconflow.cn/v1",
 )
+def expression_refinement_node(state: IntentState) -> Dict:
+    latest_message = state["messages"][-1].content
+    chain = refinement_prompt | llm
+    refined_message = chain.invoke({"message": latest_message}).content
+
+    print("Refined message:", refined_message)
+
+    return {"refined_message": refined_message}
 # Intent Analysis Node
 def intent_analysis_node(state: IntentState) -> Dict:
-    latest_message = state["messages"][-1]
+    latest_message = state.get("refined_message")
     current_intent = state.get("intent",[])
     #context = state["messages"][-5:]
     # 调用 LLM
     chain = intent_prompt | llm
     result = chain.invoke({
-        "latest_message": latest_message
+        "refined_message": latest_message
        # "context":context,
     }).content
     # JSON 解析

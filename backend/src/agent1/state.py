@@ -7,4 +7,5 @@ class IntentState(TypedDict):
     task_params:dict
     intent_summary:str
     latest_message:str
+    refined_message:str
 
