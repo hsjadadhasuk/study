@@ -32,7 +32,7 @@ graph.add_edge("model_tool_node", "merge_node")
 graph.add_edge("merge_node", END)
 agent = graph.compile()
 events = agent.stream(
-    {"messages": "现在是北京什么时间和天气"}
+    {"messages": "现在是上海什么时间和天气，还有我想要翻译文本"}
 )
 for event in events:
     print(event)
